@@ -1,42 +1,12 @@
-
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
- 
-var app = express();
- 
-var server = require('http').Server(app);
-var io = require('./sockets')(server);
- 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(cookieParser());
- 
-app.use(express.static(path.join(__dirname, 'public')));
- 
-app.use('/', require('./routes'));
- 
-/// catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// for local testing
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+const app = require('./app')
+const server = require('http').Server(app);
+const io = require('./sockets')(server);
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '2000');
+const port = normalizePort(process.env.PORT || '2000');
  
 server.listen(port);
 console.log('Server running at ' + port);
@@ -103,5 +73,3 @@ function onListening() {
     : 'port ' + addr.port;
   console.log('Listening on ' + bind);
 }
- 
-module.exports = app;
