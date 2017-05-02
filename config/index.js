@@ -5,4 +5,4 @@ config.redisStore = {
   secret: process.env.REDIS_STORE_SECRET
 }
 
-module.exports = config
+module.exports = config;

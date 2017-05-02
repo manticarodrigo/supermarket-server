@@ -1,14 +1,21 @@
 
 const express = require('express');
-const passport = require('passport')  
-const session = require('express-session')  
-const RedisStore = require('connect-redis')(session)
+const passport = require('passport');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const config = require('../config');
 const app = express();
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(cookieParser());
+
+require('./authentication').init(app)
 
 app.use(session({  
   store: new RedisStore({
@@ -17,14 +24,9 @@ app.use(session({
   secret: config.redisStore.secret,
   resave: false,
   saveUninitialized: false
-}))
+}));
 app.use(passport.initialize())  
 app.use(passport.session())
- 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(cookieParser());
  
 app.use('/', require('../routes'));
  

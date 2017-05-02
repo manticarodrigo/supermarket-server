@@ -6,7 +6,7 @@ const io = require('./sockets')(server);
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '2000');
+const port = normalizePort(process.env.PORT || '8000');
  
 server.listen(port);
 console.log('Server running at ' + port);

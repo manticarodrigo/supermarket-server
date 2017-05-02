@@ -7,4 +7,4 @@ function authenticationMiddleware () {
   }
 }
 
-module.exports = authenticationMiddleware
+module.exports = authenticationMiddleware;

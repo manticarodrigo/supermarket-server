@@ -19,4 +19,4 @@ function renderProfile (req, res) {
   })
 }
 
-module.exports = initUser
+module.exports = initUser;
