@@ -9,7 +9,8 @@ router.get('/', function(req, res ) {
 // users routes
 var users = require('../users');
 router.route('/users')
-    .get(users.getAllUsers);
+    .get(users.getAllUsers)
+    .put(users.saveUser);
 
 
 router.route('/users/:userId')

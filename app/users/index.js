@@ -10,9 +10,9 @@ exports.getAllUsers = function (req, res) {
 }
 
 exports.getUser = function (req, res) {
-    var id = req.body;
-    console.log("Getting user with id : " + id);
-    usersDB.getUser(id, function(err, data) {
+    var _id = req.params.userId;
+    console.log("Getting user with id : " + _id);
+    usersDB.getUser(_id, function(err, data) {
         if (err)
             res.send(err);
         res.json(data);
@@ -21,7 +21,7 @@ exports.getUser = function (req, res) {
 
 exports.saveUser = function (req, res) {
     var user = req.body;
-    console.log("Saving user with id : " + user.id);
+    console.log("Saving user : " + user);
     usersDB.saveUser(user, function(err, data) {
         if (err)
             res.send(err);
@@ -30,8 +30,9 @@ exports.saveUser = function (req, res) {
 }
 
 exports.updateUser = function (req, res) {
+    var _id = req.params.userId;
     var user = req.body;
-    console.log("Updating user with id : " + user.id);
+    console.log("Updating user with id : " + _id);
     usersDB.updateUser(user, function(err, data) {
         if (err)
             res.send(err);
@@ -40,8 +41,9 @@ exports.updateUser = function (req, res) {
 }
 
 exports.deleteUser = function (req, res) {
+    var _id = req.params.userId;
     var user = req.body;
-    console.log("Deleting user with id : " + user.id);
+    console.log("Deleting user with id : " + _id);
     usersDB.deleteUser(user, function(err, data) {
         if (err)
             res.send(err);

@@ -1,6 +1,7 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+const localStrategy = require('./local');
+const facebookStrategy = requite('./facebook');
+var usersDB = require('../users/users.db');
 
 const authenticationMiddleware = require('./middleware');
 
@@ -10,11 +11,16 @@ const user = {
   id: 1
 }
 
-function findUser (username, callback) {
+function findUser (input, callback) {
   if (username === user.username) {
     return callback(null, user);
   }
   return callback(null);
+  usersDB.findUser(input, function (err, data) {
+    if (err)
+        callback(null)
+    callback(null, data);
+  });
 }
 
 passport.serializeUser(function (user, cb) {
@@ -41,27 +47,6 @@ function initPassport () {
         return done(null, user)
       })
     }
-  ));
-
-  passport.use(new FacebookStrategy({
-    clientID: "1046483005413431",
-    clientSecret: "03f967b63bc80dfce4117b462595121b",
-    callbackURL: "http://localhost:8000/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    findUser(profile.displayName, function (err, user) {
-      if (err) {
-          return done(err)
-        }
-        if (!user) {
-          return done(null, false)
-        }
-        if (password !== user.password  ) {
-          return done(null, false)
-        }
-        return done(null, user)
-    });
-  }
   ));
 
   passport.authenticationMiddleware = authenticationMiddleware;
