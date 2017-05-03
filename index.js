@@ -1,6 +1,6 @@
-const app = require('./app')
+const app = require('./app');
 const server = require('http').Server(app);
-const io = require('./sockets')(server);
+const io = require('./app/sockets')(server);
 
 /**
  * Get port from environment and store in Express.
