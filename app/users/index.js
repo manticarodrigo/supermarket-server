@@ -6,16 +6,18 @@ exports.getAllUsers = function (req, res) {
         if (err)
             res.send(err);
         res.json(data);
+        console.log(data);
     });
 }
 
 exports.getUser = function (req, res) {
     var _id = req.params.userId;
     console.log("Getting user with id : " + _id);
-    usersDB.getUser(_id, function(err, data) {
+    usersDB.findUserById(_id, function(err, data) {
         if (err)
             res.send(err);
         res.json(data);
+        console.log(data);
     });
 }
 
@@ -26,6 +28,7 @@ exports.saveUser = function (req, res) {
         if (err)
             res.send(err);
         res.json(data);
+        console.log(data);
     });
 }
 
@@ -37,6 +40,7 @@ exports.updateUser = function (req, res) {
         if (err)
             res.send(err);
         res.json(data);
+        console.log(data);
     });
 }
 
@@ -48,5 +52,6 @@ exports.deleteUser = function (req, res) {
         if (err)
             res.send(err);
         res.json(data);
+        console.log(data);
     });
 }

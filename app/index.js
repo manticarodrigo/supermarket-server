@@ -1,6 +1,5 @@
 
 const express = require('express');
-const passport = require('passport');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const cookieParser = require('cookie-parser');
@@ -14,8 +13,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
-require('./authentication').init(app)
-
 app.use(session({  
   store: new RedisStore({
     url: config.redisStore.url
@@ -24,10 +21,18 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-app.use(passport.initialize())  
-app.use(passport.session())
- 
-app.use('/', require('./routes'));
+
+const passport = require('passport');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Initialize Passport
+const initPassport = require('./passport/init');
+initPassport(passport);
+
+const routes = require('./routes/index')(passport);
+app.use('/', routes);
  
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

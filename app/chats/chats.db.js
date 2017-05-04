@@ -1,6 +1,8 @@
 var config = require('../config');
 var mongojs = require('mongojs');
-var db = mongojs(config.mongoDB.host, ['chats']);
+var chatsDB = mongojs(config.mongoDB.host, ['chats']);
+var membersDB = mongojs(config.mongoDB.host, ['members']);
+var messagesDB = mongojs(config.mongoDB.host, ['messages']);
  
 var chats = {
  

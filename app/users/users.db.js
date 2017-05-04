@@ -7,49 +7,56 @@ var users = {
     getAllUsers: function(callback) {
         db.users.find(callback);
     },
-    findUser: function(input, callback) {
-        Promise.all([
-            queryPromise({username: input.username}),
-            queryPromise({id: input.id})
-        ]).then(function(result) {
-            // result is an array of responses here
-            callback(result[0] || result[1]);
-        }).catch(function(err) {
-            console.log(err);
-            callback(null);
-        });
-    },
-    getUser: function(id, callback) {
-        db.users.find({
-            id: id
-        }, callback);
-    },
     saveUser: function(user, callback) {
         db.users.insert(user, callback);
     },
     updateUser: function(user, callback) {
         db.users.update({
-            id: user.id
+            _id: user._id
         }, user, {}, callback);
     },
-    deleteUser: function(_id, callback) {
+    deleteUser: function(user, callback) {
         db.users.remove({
-            id: id
+            _id: user._id
         }, '', callback);
-    }
+    },
+    findUserByUsername: function(username, callback) {
+        db.users.find({
+            username: username
+        }, function (err, data) {
+            console.log("Found users", data);
+            extractUser(err, data, callback);
+        });
+    },
+    findUserById: function(id, callback) {
+        db.users.find({
+            _id: id
+        }, function (err, data) {
+            console.log("Found users", data);
+            extractUser(err, data, callback);
+        });
+    },
+    findUserByFbId: function(id, callback) {
+        db.users.find({
+            fb: {
+                id: id
+            }
+        }, function (err, data) {
+            console.log("Found users", data);
+            extractUser(err, data, callback);
+        });
+    },
     
 }
 
-function queryPromise(query) {
-    return new Promise(function(resolve, reject) {
-        db.users.find(query, function(err, resp) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(resp);
-            }
-        });
-    })
+function extractUser (err, data, callback) {
+    if (err)
+        callback(err, null);
+    if (data[0]) {
+        callback(null, data[0]);
+    } else {
+        callback(err, null);
+    }
 }
  
 module.exports = users;

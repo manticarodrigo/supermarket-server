@@ -4,6 +4,7 @@ function authenticationMiddleware () {
       return next()
     }
     res.redirect('/')
+    console.log("No auth");
   }
 }
 
