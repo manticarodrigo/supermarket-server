@@ -8,7 +8,7 @@ module.exports = function(passport) {
 
 	/* GET home page. */
   router.get('/', function(req, res ) {
-      res.send('Welcome to Edumate!');
+      res.send('Bienvenidos a La Colonia!');
   });
 
 	/* Handle Login POST */

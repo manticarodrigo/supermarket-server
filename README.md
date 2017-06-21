@@ -1,2 +1,2 @@
-# edumate-server
-A powerful backend for the most advanced learning management platform.
+# laColonia-server
+A node.js server for La Colonia App.
